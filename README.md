@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Polleras Mi Tierra
 
-## Getting Started
+Solución digital integral para la gestión de inventario y alquiler de indumentaria típica panameña. Centraliza la disponibilidad de polleras, las solicitudes de clientes y la agenda de pruebas, entregas y devoluciones.
 
-First, run the development server:
+## Stack
+
+- Next.js 16 (App Router), React 19, TypeScript
+- Tailwind CSS 4
+- PostgreSQL 15+ con Prisma 8 (`@prisma/orm-postgres`)
+
+## Puesta en marcha
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+En `.env` define:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `DATABASE_URL`: cadena de conexión a PostgreSQL 15 o superior.
+- `CODIGO_EQUIPO`: clave para entrar a `/equipo`. Sin ella, el área del equipo permanece cerrada.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Crear las tablas y arrancar:
 
-## Learn More
+```bash
+npx prisma db init
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Abre `http://localhost:3000`. Si `DATABASE_URL` está vacía o es el valor de ejemplo, la app funciona en **modo ejemplo**: catálogo y reservas en memoria, que se reinician al detener el servidor.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Módulos
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Catálogo público**: fichas de polleras, precios (sola / con prendas y tembleques) y disponibilidad por fecha.
+- **Solicitudes**: el cliente envía nombre, teléfono y modalidad; la fecha queda pendiente hasta que se confirme el depósito.
+- **Área del equipo** (`/equipo`): acceso con clave, búsqueda y filtros, reservas por teléfono, confirmación de depósito, devoluciones y cierre de solicitudes.
+- **Panel de hoy** (`/hoy`): pruebas, entregas y devoluciones del día en hora de Panamá, con opción de imprimir.
+- **Calendario** (`/calendario`): fechas y horas de prueba, entrega y devolución, notas y mensajes listos para WhatsApp.
 
-## Deploy on Vercel
+## Scripts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Script | Uso |
+| --- | --- |
+| `npm run dev` | Servidor de desarrollo |
+| `npm run lint` | ESLint |
+| `npm run typecheck` | Comprobación de tipos |
+| `npm run build` | Build de producción (antes emite el contrato de Prisma) |
+| `npm start` | Servidor de producción |
+| `npm run contract:emit` | Regenera `contract.json` y `contract.d.ts` tras editar `src/prisma/contract.prisma` |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+El contrato de datos vive en `src/prisma/contract.prisma`; los archivos generados deben commitearse junto con él.

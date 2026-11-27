@@ -32,7 +32,7 @@ function aviso(mensaje: string | string[] | undefined): string {
     return "Ese código no es correcto.";
   }
   if (valor === "datos") {
-    return "Revisa el monto del depósito.";
+    return "Revisa la fecha, el teléfono y el monto del depósito.";
   }
   return valor;
 }

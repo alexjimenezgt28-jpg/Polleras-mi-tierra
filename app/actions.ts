@@ -10,6 +10,7 @@ import {
   crearReserva,
   crearReservaManual,
   confirmarDeposito,
+  hoyPanama,
   marcarAvisoEnviado,
   marcarDevuelta,
   type MetodoPago,
@@ -20,6 +21,23 @@ import {
 function texto(formData: FormData, nombre: string): string {
   const valor = formData.get(nombre);
   return typeof valor === "string" ? valor.trim() : "";
+}
+
+function fechaValida(fecha: string): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(fecha)) {
+    return false;
+  }
+  const valor = new Date(`${fecha}T00:00:00Z`);
+  return (
+    !Number.isNaN(valor.getTime()) &&
+    valor.toISOString().slice(0, 10) === fecha &&
+    fecha >= hoyPanama()
+  );
+}
+
+function telefonoValido(telefono: string): boolean {
+  const digitos = telefono.replace(/\D/g, "");
+  return digitos.length === 8 || (digitos.length === 11 && digitos.startsWith("507"));
 }
 
 export async function solicitarReserva(
@@ -38,8 +56,11 @@ export async function solicitarReserva(
   if (polleraId === "" || clienteNombre === "" || clienteTelefono === "") {
     return { ok: false, mensaje: "Faltan datos. Escribe tu nombre y tu teléfono." };
   }
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(fecha)) {
-    return { ok: false, mensaje: "Escoge una fecha válida." };
+  if (!fechaValida(fecha)) {
+    return { ok: false, mensaje: "Escoge una fecha válida, desde hoy en adelante." };
+  }
+  if (!telefonoValido(clienteTelefono)) {
+    return { ok: false, mensaje: "Escribe un teléfono de 8 dígitos (o con el 507)." };
   }
 
   try {
@@ -206,7 +227,8 @@ export async function nuevaReservaForm(formData: FormData) {
     datos.polleraId === "" ||
     datos.clienteNombre === "" ||
     datos.clienteTelefono === "" ||
-    !/^\d{4}-\d{2}-\d{2}$/.test(datos.fecha)
+    !fechaValida(datos.fecha) ||
+    !telefonoValido(datos.clienteTelefono)
   ) {
     redirect("/equipo?mensaje=datos");
   }
