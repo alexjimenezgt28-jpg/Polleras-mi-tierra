@@ -16,13 +16,19 @@ export default function Encabezado() {
           </span>
         </Link>
         <nav className="flex items-center gap-4 text-sm font-semibold text-vino/80 sm:gap-6">
-          <Link href="#catalogo" className="transition hover:text-rosa">
+          <Link href="/alquiler" className="transition hover:text-rosa">
+            Alquiler
+          </Link>
+          <Link href="/ventas" className="transition hover:text-rosa">
+            Ventas
+          </Link>
+          <Link href="#catalogo" className="hidden transition hover:text-rosa md:inline">
             Catálogo
           </Link>
-          <Link href="#como-funciona" className="hidden transition hover:text-rosa sm:inline">
+          <Link href="#como-funciona" className="hidden transition hover:text-rosa lg:inline">
             Cómo funciona
           </Link>
-          <Link href="#preguntas" className="hidden transition hover:text-rosa sm:inline">
+          <Link href="#preguntas" className="hidden transition hover:text-rosa lg:inline">
             Preguntas
           </Link>
           <Link href="/equipo" className="boton-contorno !px-4 !py-2 text-xs">

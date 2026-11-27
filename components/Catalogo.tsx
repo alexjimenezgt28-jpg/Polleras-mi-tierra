@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import FiltrosCatalogo, { type Filtros } from "@/components/FiltrosCatalogo";
+import FiltrosCatalogo, { filtrosVacios, type Filtros } from "@/components/FiltrosCatalogo";
 import FormularioReserva from "@/components/FormularioReserva";
 import { coloresDe, type Pollera } from "@/lib/catalogo";
 
@@ -18,14 +18,16 @@ export default function Catalogo({
   origen: "real" | "ejemplo";
 }) {
   const [fecha, setFecha] = useState("");
-  const [filtros, setFiltros] = useState<Filtros>({ color: "", tecnica: "" });
+  const [filtros, setFiltros] = useState<Filtros>(filtrosVacios);
   const [seleccionada, setSeleccionada] = useState<Pollera | null>(null);
   const [fichaAbierta, setFichaAbierta] = useState<string | null>(null);
 
   const visibles = polleras.filter((pollera) => {
     const porColor = filtros.color === "" || coloresDe(pollera.color).includes(filtros.color);
     const porTecnica = filtros.tecnica === "" || pollera.tecnica === filtros.tecnica;
-    return porColor && porTecnica;
+    const porTalla = filtros.talla === "" || pollera.talla === filtros.talla;
+    const porEstilo = filtros.estilo === "" || pollera.estilo === filtros.estilo;
+    return porColor && porTecnica && porTalla && porEstilo;
   });
 
   return (
@@ -64,14 +66,14 @@ export default function Catalogo({
         />
       </div>
 
-      <FiltrosCatalogo polleras={polleras} onBuscar={setFiltros} />
+      <FiltrosCatalogo articulos={polleras} onBuscar={setFiltros} modo="alquiler" />
 
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm font-semibold text-vino">
           Número de registros encontrados: <strong>{visibles.length}</strong>
         </p>
         <p className="text-xs text-tinta/55">
-          {filtros.color === "" && filtros.tecnica === ""
+          {Object.values(filtros).every((valor) => valor === "")
             ? "Mostrando toda la colección"
             : "Filtros aplicados"}
         </p>
@@ -79,7 +81,7 @@ export default function Catalogo({
 
       {visibles.length === 0 ? (
         <p className="tarjeta p-6 text-sm text-tinta/70">
-          No hay polleras con esos filtros. Prueba con otro color o técnica de confección.
+          No hay polleras con esos filtros. Prueba con otro color, talla, estilo o técnica.
         </p>
       ) : (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -148,6 +150,9 @@ export default function Catalogo({
                       </p>
                       <p>
                         <strong className="text-vino">Técnica:</strong> {pollera.tecnica}
+                      </p>
+                      <p>
+                        <strong className="text-vino">Estilo regional:</strong> {pollera.estilo}
                       </p>
                       <p>
                         <strong className="text-vino">Precios:</strong> sola{" "}

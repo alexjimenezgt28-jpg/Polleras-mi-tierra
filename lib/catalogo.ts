@@ -8,11 +8,28 @@ export const TECNICAS = [
   "Sin labor (tela estampada)",
 ] as const;
 
-export type Pollera = {
+export const ESTILOS = [
+  "Montuna",
+  "Guararé",
+  "Chiriquí",
+  "Chorrerana",
+  "Blanca",
+  "Organza",
+  "Coquito",
+  "Lujo",
+] as const;
+
+export type ArticuloCatalogo = {
   id: string;
   nombre: string;
   talla: string;
   color: string;
+  estilo: string;
+  tecnica?: string;
+  categoria?: string;
+};
+
+export type Pollera = ArticuloCatalogo & {
   descripcion: string;
   tecnica: string;
   precioSola: number;
@@ -38,6 +55,7 @@ export const polleras: Pollera[] = [
     color: "Rojo y blanco",
     descripcion: "Bordado floral, falda amplia y manto a juego. Ideal para fiestas formales.",
     tecnica: "Bordado a mano",
+    estilo: "Lujo",
     precioSola: 45,
     precioCombo: 70,
     imagenUrl: "/polleras/gala-roja.png",
@@ -50,6 +68,7 @@ export const polleras: Pollera[] = [
     color: "Azul y crema",
     descripcion: "Encaje delicado y toque de seda. Muy liviana para eventos de día.",
     tecnica: "Encaje de mundillo",
+    estilo: "Blanca",
     precioSola: 40,
     precioCombo: 65,
     imagenUrl: "/polleras/encaje-azul.png",
@@ -62,6 +81,7 @@ export const polleras: Pollera[] = [
     color: "Dorado y marfil",
     descripcion: "Brillo discreto, vuelo generoso y cinta de satén. Para ocasiones especiales.",
     tecnica: "Zurcido y calado",
+    estilo: "Lujo",
     precioSola: 55,
     precioCombo: 85,
     imagenUrl: "/polleras/fiesta-dorada.png",
@@ -74,6 +94,7 @@ export const polleras: Pollera[] = [
     color: "Verde y blanco",
     descripcion: "Diseño sencillo y cómodo, perfecta para sesiones de fotos y pruebas.",
     tecnica: "Sin labor (tela estampada)",
+    estilo: "Montuna",
     precioSola: 35,
     precioCombo: 60,
     imagenUrl: "/polleras/diario-verde.png",
@@ -86,6 +107,7 @@ export const polleras: Pollera[] = [
     color: "Blanco y marfil",
     descripcion: "Talco al sol sobre tela de hilo, con calados florales y tembleques de perla.",
     tecnica: "Talco al sol",
+    estilo: "Blanca",
     precioSola: 120,
     precioCombo: 180,
     imagenUrl: "/polleras/gala-roja.png",
@@ -98,6 +120,7 @@ export const polleras: Pollera[] = [
     color: "Blanco y rojo",
     descripcion: "Zurcido con hilo de color y calados, trencillas de mundillo y encaje valenciano.",
     tecnica: "Zurcido y calado",
+    estilo: "Guararé",
     precioSola: 110,
     precioCombo: 170,
     imagenUrl: "/polleras/fiesta-dorada.png",
@@ -110,6 +133,7 @@ export const polleras: Pollera[] = [
     color: "Azul y blanco",
     descripcion: "Punto de cruz con motivos florales y aves sobre lienzo blanco.",
     tecnica: "Marcado (punto de cruz)",
+    estilo: "Guararé",
     precioSola: 90,
     precioCombo: 140,
     imagenUrl: "/polleras/encaje-azul.png",
@@ -122,6 +146,7 @@ export const polleras: Pollera[] = [
     color: "Rosado y blanco",
     descripcion: "Sombreado en talco, calados finos y vuelo amplio para eventos de día.",
     tecnica: "Talco en sombra",
+    estilo: "Chiriquí",
     precioSola: 95,
     precioCombo: 150,
     imagenUrl: "/polleras/gala-roja.png",
@@ -134,6 +159,7 @@ export const polleras: Pollera[] = [
     color: "Amarillo y crema",
     descripcion: "Organza ligera sin labor, con encaje en las arandelas y pretina.",
     tecnica: "Sin labor (tela estampada)",
+    estilo: "Organza",
     precioSola: 50,
     precioCombo: 80,
     imagenUrl: "/polleras/fiesta-dorada.png",
@@ -146,6 +172,7 @@ export const polleras: Pollera[] = [
     color: "Morado y blanco",
     descripcion: "Bordado a mano con racimos de uvas y piñas, inspirado en la labor santeña.",
     tecnica: "Bordado a mano",
+    estilo: "Lujo",
     precioSola: 100,
     precioCombo: 155,
     imagenUrl: "/polleras/gala-roja.png",
@@ -158,6 +185,7 @@ export const polleras: Pollera[] = [
     color: "Blanco y crema",
     descripcion: "Trencillas de mundillo y encajes valencianos en camisa y pollerón.",
     tecnica: "Encaje de mundillo",
+    estilo: "Blanca",
     precioSola: 75,
     precioCombo: 115,
     imagenUrl: "/polleras/encaje-azul.png",
@@ -170,6 +198,7 @@ export const polleras: Pollera[] = [
     color: "Verde y crema",
     descripcion: "Pollera de campo sin labores, cómoda para desfiles y presentaciones folclóricas.",
     tecnica: "Sin labor (tela estampada)",
+    estilo: "Montuna",
     precioSola: 45,
     precioCombo: 70,
     imagenUrl: "/polleras/diario-verde.png",
@@ -182,6 +211,7 @@ export const polleras: Pollera[] = [
     color: "Dorado y blanco",
     descripcion: "Sobrepuesto de percal en tela de hilo, con sombreado y calados a juego.",
     tecnica: "Talco al sol",
+    estilo: "Chorrerana",
     precioSola: 105,
     precioCombo: 160,
     imagenUrl: "/polleras/fiesta-dorada.png",
@@ -194,6 +224,7 @@ export const polleras: Pollera[] = [
     color: "Azul y blanco",
     descripcion: "Calados tipo ojito de muñeca y cañita sobre diseño floral zurcido.",
     tecnica: "Zurcido y calado",
+    estilo: "Coquito",
     precioSola: 98,
     precioCombo: 148,
     imagenUrl: "/polleras/encaje-azul.png",
@@ -206,6 +237,7 @@ export const polleras: Pollera[] = [
     color: "Rosado y marfil",
     descripcion: "Bordado con mariposas y colibríes, gallardete de satén a juego.",
     tecnica: "Bordado a mano",
+    estilo: "Guararé",
     precioSola: 88,
     precioCombo: 135,
     imagenUrl: "/polleras/gala-roja.png",
@@ -218,6 +250,7 @@ export const polleras: Pollera[] = [
     color: "Crema y blanco",
     descripcion: "Lino trabajado en punto de cruz con diseños geométricos y florales.",
     tecnica: "Marcado (punto de cruz)",
+    estilo: "Coquito",
     precioSola: 85,
     precioCombo: 130,
     imagenUrl: "/polleras/diario-verde.png",
@@ -230,6 +263,7 @@ export const polleras: Pollera[] = [
     color: "Multicolor",
     descripcion: "Tela estampada de colores vivos con arandelas rematadas en encaje.",
     tecnica: "Sin labor (tela estampada)",
+    estilo: "Chiriquí",
     precioSola: 60,
     precioCombo: 95,
     imagenUrl: "/polleras/fiesta-dorada.png",
@@ -242,6 +276,7 @@ export const polleras: Pollera[] = [
     color: "Blanco y perla",
     descripcion: "Conjunto blanco con trencillas de mundillo, tembleques de perla y velo.",
     tecnica: "Encaje de mundillo",
+    estilo: "Blanca",
     precioSola: 130,
     precioCombo: 200,
     imagenUrl: "/polleras/encaje-azul.png",

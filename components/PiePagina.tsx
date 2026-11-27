@@ -7,14 +7,21 @@ export default function PiePagina({ origen }: { origen: "real" | "ejemplo" }) {
         <div>
           <p className="font-display text-xl text-vino">Polleras Mi Tierra</p>
           <p className="mt-2 max-w-xs text-sm leading-relaxed text-tinta/65">
-            Alquiler de polleras típicas con depósito, prueba y entrega coordinada.
+            Alquiler y venta de indumentaria típica panameña, con depósito, prueba y entrega
+            coordinada.
           </p>
         </div>
         <div>
           <p className="text-xs font-bold uppercase tracking-widest text-rosa">Enlaces</p>
           <div className="mt-3 flex flex-col gap-2 text-sm font-medium text-vino/85">
+            <Link href="/alquiler" className="hover:text-rosa">
+              Alquiler de polleras
+            </Link>
+            <Link href="/ventas" className="hover:text-rosa">
+              Prendas en venta
+            </Link>
             <Link href="#catalogo" className="hover:text-rosa">
-              Catálogo
+              Catálogo principal
             </Link>
             <Link href="#como-funciona" className="hover:text-rosa">
               Cómo funciona
