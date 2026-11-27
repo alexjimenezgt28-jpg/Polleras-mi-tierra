@@ -1,0 +1,1776 @@
+{
+  "schemaVersion": "1",
+  "targetFamily": "sql",
+  "target": "postgres",
+  "profileHash": "3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2",
+  "roots": {
+    "accesorios": {
+      "model": "Accesorio",
+      "namespace": "public"
+    },
+    "bloqueos_pollera": {
+      "model": "BloqueoPollera",
+      "namespace": "public"
+    },
+    "pollera_accesorios": {
+      "model": "PolleraAccesorio",
+      "namespace": "public"
+    },
+    "polleras": {
+      "model": "Pollera",
+      "namespace": "public"
+    },
+    "reservas": {
+      "model": "Reserva",
+      "namespace": "public"
+    },
+    "usuarios": {
+      "model": "Usuario",
+      "namespace": "public"
+    }
+  },
+  "domain": {
+    "namespaces": {
+      "public": {
+        "enum": {
+          "EstadoReserva": {
+            "codecId": "pg/text@1",
+            "members": [
+              {
+                "name": "PENDIENTE",
+                "value": "PENDIENTE"
+              },
+              {
+                "name": "CONFIRMADA",
+                "value": "CONFIRMADA"
+              },
+              {
+                "name": "CANCELADA",
+                "value": "CANCELADA"
+              },
+              {
+                "name": "DEVUELTA",
+                "value": "DEVUELTA"
+              }
+            ]
+          },
+          "MetodoPago": {
+            "codecId": "pg/text@1",
+            "members": [
+              {
+                "name": "YAPPY",
+                "value": "YAPPY"
+              },
+              {
+                "name": "TRANSFERENCIA",
+                "value": "TRANSFERENCIA"
+              }
+            ]
+          },
+          "Modalidad": {
+            "codecId": "pg/text@1",
+            "members": [
+              {
+                "name": "POLLERA_SOLA",
+                "value": "POLLERA_SOLA"
+              },
+              {
+                "name": "POLLERA_CON_PRENDAS",
+                "value": "POLLERA_CON_PRENDAS"
+              }
+            ]
+          },
+          "Rol": {
+            "codecId": "pg/text@1",
+            "members": [
+              {
+                "name": "DUENA",
+                "value": "DUENA"
+              },
+              {
+                "name": "EMPLEADO",
+                "value": "EMPLEADO"
+              }
+            ]
+          }
+        },
+        "models": {
+          "Accesorio": {
+            "fields": {
+              "activo": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "nombre": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "precio": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/numeric@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 10,
+                    "scale": 2
+                  }
+                }
+              },
+              "tipo": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "polleras": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "accesorioId"
+                  ]
+                },
+                "to": {
+                  "model": "PolleraAccesorio",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "activo": {
+                  "column": "activo"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "nombre": {
+                  "column": "nombre"
+                },
+                "precio": {
+                  "column": "precio"
+                },
+                "tipo": {
+                  "column": "tipo"
+                }
+              },
+              "namespaceId": "public",
+              "table": "accesorios"
+            }
+          },
+          "BloqueoPollera": {
+            "fields": {
+              "creadoEn": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "fecha": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/date-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "polleraId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "reservaId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "pollera": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "polleraId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Pollera",
+                  "namespace": "public"
+                }
+              },
+              "reserva": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "reservaId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Reserva",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "creadoEn": {
+                  "column": "creadoEn"
+                },
+                "fecha": {
+                  "column": "fecha"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "polleraId": {
+                  "column": "polleraId"
+                },
+                "reservaId": {
+                  "column": "reservaId"
+                }
+              },
+              "namespaceId": "public",
+              "table": "bloqueos_pollera"
+            }
+          },
+          "Pollera": {
+            "fields": {
+              "activa": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
+              "color": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "creadoEn": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "descripcion": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "imagenUrl": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "nombre": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "precio": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/numeric@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 10,
+                    "scale": 2
+                  }
+                }
+              },
+              "precioCombo": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/numeric@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 10,
+                    "scale": 2
+                  }
+                }
+              },
+              "talla": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "accesorios": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "polleraId"
+                  ]
+                },
+                "to": {
+                  "model": "PolleraAccesorio",
+                  "namespace": "public"
+                }
+              },
+              "bloqueos": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "polleraId"
+                  ]
+                },
+                "to": {
+                  "model": "BloqueoPollera",
+                  "namespace": "public"
+                }
+              },
+              "reservas": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "polleraId"
+                  ]
+                },
+                "to": {
+                  "model": "Reserva",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "activa": {
+                  "column": "activa"
+                },
+                "color": {
+                  "column": "color"
+                },
+                "creadoEn": {
+                  "column": "creadoEn"
+                },
+                "descripcion": {
+                  "column": "descripcion"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "imagenUrl": {
+                  "column": "imagenUrl"
+                },
+                "nombre": {
+                  "column": "nombre"
+                },
+                "precio": {
+                  "column": "precio"
+                },
+                "precioCombo": {
+                  "column": "precioCombo"
+                },
+                "talla": {
+                  "column": "talla"
+                }
+              },
+              "namespaceId": "public",
+              "table": "polleras"
+            }
+          },
+          "PolleraAccesorio": {
+            "fields": {
+              "accesorioId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "polleraId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "accesorio": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "accesorioId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Accesorio",
+                  "namespace": "public"
+                }
+              },
+              "pollera": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "polleraId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Pollera",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "accesorioId": {
+                  "column": "accesorioId"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "polleraId": {
+                  "column": "polleraId"
+                }
+              },
+              "namespaceId": "public",
+              "table": "pollera_accesorios"
+            }
+          },
+          "Reserva": {
+            "fields": {
+              "actualizadoEn": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "avisoEnviadoEn": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "clienteNombre": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "clienteTelefono": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "creadoEn": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "depositoConfirmado": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "depositoMonto": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/numeric@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 10,
+                    "scale": 2
+                  }
+                }
+              },
+              "estado": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "EstadoReserva",
+                  "namespaceId": "public",
+                  "plane": "domain"
+                }
+              },
+              "fechaDevolucion": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/date-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "fechaEntrega": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/date-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "fechaPrueba": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/date-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "fechaReserva": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/date-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "horaPrueba": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/time-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "metodoPago": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "MetodoPago",
+                  "namespaceId": "public",
+                  "plane": "domain"
+                }
+              },
+              "modalidad": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "Modalidad",
+                  "namespaceId": "public",
+                  "plane": "domain"
+                }
+              },
+              "notas": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "polleraId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "usuarioId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "bloqueo": {
+                "cardinality": "1:1",
+                "nullable": true,
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "reservaId"
+                  ]
+                },
+                "to": {
+                  "model": "BloqueoPollera",
+                  "namespace": "public"
+                }
+              },
+              "pollera": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "polleraId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Pollera",
+                  "namespace": "public"
+                }
+              },
+              "usuario": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "usuarioId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Usuario",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "actualizadoEn": {
+                  "column": "actualizadoEn"
+                },
+                "avisoEnviadoEn": {
+                  "column": "avisoEnviadoEn"
+                },
+                "clienteNombre": {
+                  "column": "clienteNombre"
+                },
+                "clienteTelefono": {
+                  "column": "clienteTelefono"
+                },
+                "creadoEn": {
+                  "column": "creadoEn"
+                },
+                "depositoConfirmado": {
+                  "column": "depositoConfirmado"
+                },
+                "depositoMonto": {
+                  "column": "depositoMonto"
+                },
+                "estado": {
+                  "column": "estado"
+                },
+                "fechaDevolucion": {
+                  "column": "fechaDevolucion"
+                },
+                "fechaEntrega": {
+                  "column": "fechaEntrega"
+                },
+                "fechaPrueba": {
+                  "column": "fechaPrueba"
+                },
+                "fechaReserva": {
+                  "column": "fechaReserva"
+                },
+                "horaPrueba": {
+                  "column": "horaPrueba"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "metodoPago": {
+                  "column": "metodoPago"
+                },
+                "modalidad": {
+                  "column": "modalidad"
+                },
+                "notas": {
+                  "column": "notas"
+                },
+                "polleraId": {
+                  "column": "polleraId"
+                },
+                "usuarioId": {
+                  "column": "usuarioId"
+                }
+              },
+              "namespaceId": "public",
+              "table": "reservas"
+            }
+          },
+          "Usuario": {
+            "fields": {
+              "activo": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
+              "correo": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "creadoEn": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "precision": 3
+                  }
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "nombre": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "rol": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "Rol",
+                  "namespaceId": "public",
+                  "plane": "domain"
+                }
+              },
+              "telefono": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "reservas": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "usuarioId"
+                  ]
+                },
+                "to": {
+                  "model": "Reserva",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "activo": {
+                  "column": "activo"
+                },
+                "correo": {
+                  "column": "correo"
+                },
+                "creadoEn": {
+                  "column": "creadoEn"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "nombre": {
+                  "column": "nombre"
+                },
+                "rol": {
+                  "column": "rol"
+                },
+                "telefono": {
+                  "column": "telefono"
+                }
+              },
+              "namespaceId": "public",
+              "table": "usuarios"
+            }
+          }
+        }
+      }
+    }
+  },
+  "storage": {
+    "namespaces": {
+      "public": {
+        "entries": {
+          "table": {
+            "accesorios": {
+              "columns": {
+                "activo": {
+                  "codecId": "pg/bool@1",
+                  "dataType": "pg/bool",
+                  "default": {
+                    "kind": "literal",
+                    "value": true
+                  },
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "nombre": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "precio": {
+                  "codecId": "pg/numeric@1",
+                  "dataType": "pg/numeric",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 10,
+                    "scale": 2
+                  }
+                },
+                "tipo": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
+            },
+            "bloqueos_pollera": {
+              "columns": {
+                "creadoEn": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "fecha": {
+                  "codecId": "pg/date-string@1",
+                  "dataType": "pg/date",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "polleraId": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "reservaId": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "index": {
+                    "name": "bloqueos_pollera_polleraId_idx_5c7b9159"
+                  },
+                  "onDelete": "cascade",
+                  "source": {
+                    "columns": [
+                      "polleraId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "bloqueos_pollera"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "polleras"
+                  }
+                },
+                {
+                  "index": {
+                    "unique": [
+                      "reservaId"
+                    ]
+                  },
+                  "onDelete": "cascade",
+                  "source": {
+                    "columns": [
+                      "reservaId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "bloqueos_pollera"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "reservas"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "polleraId"
+                  ],
+                  "name": "bloqueos_pollera_polleraId_idx_5c7b9159",
+                  "prefix": "bloqueos_pollera_polleraId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "reservaId"
+                  ]
+                },
+                {
+                  "columns": [
+                    "polleraId",
+                    "fecha"
+                  ]
+                }
+              ]
+            },
+            "pollera_accesorios": {
+              "columns": {
+                "accesorioId": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "polleraId": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "index": {
+                    "name": "pollera_accesorios_polleraId_idx_5c7b9159"
+                  },
+                  "onDelete": "cascade",
+                  "source": {
+                    "columns": [
+                      "polleraId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "pollera_accesorios"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "polleras"
+                  }
+                },
+                {
+                  "index": {
+                    "name": "pollera_accesorios_accesorioId_idx_4336517b"
+                  },
+                  "onDelete": "cascade",
+                  "source": {
+                    "columns": [
+                      "accesorioId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "pollera_accesorios"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "accesorios"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "accesorioId"
+                  ],
+                  "name": "pollera_accesorios_accesorioId_idx_4336517b",
+                  "prefix": "pollera_accesorios_accesorioId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "polleraId"
+                  ],
+                  "name": "pollera_accesorios_polleraId_idx_5c7b9159",
+                  "prefix": "pollera_accesorios_polleraId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "polleraId",
+                    "accesorioId"
+                  ]
+                }
+              ]
+            },
+            "polleras": {
+              "columns": {
+                "activa": {
+                  "codecId": "pg/bool@1",
+                  "dataType": "pg/bool",
+                  "default": {
+                    "kind": "literal",
+                    "value": true
+                  },
+                  "nullable": false
+                },
+                "color": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "creadoEn": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "descripcion": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "imagenUrl": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": true
+                },
+                "nombre": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "precio": {
+                  "codecId": "pg/numeric@1",
+                  "dataType": "pg/numeric",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 10,
+                    "scale": 2
+                  }
+                },
+                "precioCombo": {
+                  "codecId": "pg/numeric@1",
+                  "dataType": "pg/numeric",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 10,
+                    "scale": 2
+                  }
+                },
+                "talla": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
+            },
+            "reservas": {
+              "checks": [
+                {
+                  "expression": "\"estado\" IN ('PENDIENTE', 'CONFIRMADA', 'CANCELADA', 'DEVUELTA')",
+                  "name": "reservas_estado_check_2051dd15",
+                  "prefix": "reservas_estado_check"
+                },
+                {
+                  "expression": "\"metodoPago\" IN ('YAPPY', 'TRANSFERENCIA')",
+                  "name": "reservas_metodoPago_check_74d118f4",
+                  "prefix": "reservas_metodoPago_check"
+                },
+                {
+                  "expression": "\"modalidad\" IN ('POLLERA_SOLA', 'POLLERA_CON_PRENDAS')",
+                  "name": "reservas_modalidad_check_724834f5",
+                  "prefix": "reservas_modalidad_check"
+                }
+              ],
+              "columns": {
+                "actualizadoEn": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "avisoEnviadoEn": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": true,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "clienteNombre": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "clienteTelefono": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "creadoEn": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "depositoConfirmado": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": true,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "depositoMonto": {
+                  "codecId": "pg/numeric@1",
+                  "dataType": "pg/numeric",
+                  "nullable": true,
+                  "typeParams": {
+                    "precision": 10,
+                    "scale": 2
+                  }
+                },
+                "estado": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "default": {
+                    "kind": "literal",
+                    "value": "PENDIENTE"
+                  },
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "EstadoReserva",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
+                },
+                "fechaDevolucion": {
+                  "codecId": "pg/date-string@1",
+                  "dataType": "pg/date",
+                  "nullable": true
+                },
+                "fechaEntrega": {
+                  "codecId": "pg/date-string@1",
+                  "dataType": "pg/date",
+                  "nullable": true
+                },
+                "fechaPrueba": {
+                  "codecId": "pg/date-string@1",
+                  "dataType": "pg/date",
+                  "nullable": true
+                },
+                "fechaReserva": {
+                  "codecId": "pg/date-string@1",
+                  "dataType": "pg/date",
+                  "nullable": false
+                },
+                "horaPrueba": {
+                  "codecId": "pg/time-string@1",
+                  "dataType": "pg/time",
+                  "nullable": true
+                },
+                "id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "metodoPago": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": true,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "MetodoPago",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
+                },
+                "modalidad": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "default": {
+                    "kind": "literal",
+                    "value": "POLLERA_SOLA"
+                  },
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "Modalidad",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
+                },
+                "notas": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": true
+                },
+                "polleraId": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "usuarioId": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "index": {
+                    "name": "reservas_polleraId_idx_5c7b9159"
+                  },
+                  "source": {
+                    "columns": [
+                      "polleraId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "reservas"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "polleras"
+                  }
+                },
+                {
+                  "index": {
+                    "name": "reservas_usuarioId_idx_5f01c7d6"
+                  },
+                  "source": {
+                    "columns": [
+                      "usuarioId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "reservas"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "usuarios"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "polleraId",
+                    "fechaReserva"
+                  ],
+                  "name": "reservas_polleraId_fechaReserva_idx_99e0956d",
+                  "prefix": "reservas_polleraId_fechaReserva_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "polleraId"
+                  ],
+                  "name": "reservas_polleraId_idx_5c7b9159",
+                  "prefix": "reservas_polleraId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "usuarioId"
+                  ],
+                  "name": "reservas_usuarioId_idx_5f01c7d6",
+                  "prefix": "reservas_usuarioId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
+            },
+            "usuarios": {
+              "checks": [
+                {
+                  "expression": "\"rol\" IN ('DUENA', 'EMPLEADO')",
+                  "name": "usuarios_rol_check_66d29ec5",
+                  "prefix": "usuarios_rol_check"
+                }
+              ],
+              "columns": {
+                "activo": {
+                  "codecId": "pg/bool@1",
+                  "dataType": "pg/bool",
+                  "default": {
+                    "kind": "literal",
+                    "value": true
+                  },
+                  "nullable": false
+                },
+                "correo": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": true
+                },
+                "creadoEn": {
+                  "codecId": "pg/timestamptz-date@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": false,
+                  "typeParams": {
+                    "precision": 3
+                  }
+                },
+                "id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "nombre": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "rol": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "default": {
+                    "kind": "literal",
+                    "value": "EMPLEADO"
+                  },
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "Rol",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
+                },
+                "telefono": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "telefono"
+                  ]
+                },
+                {
+                  "columns": [
+                    "correo"
+                  ]
+                }
+              ]
+            }
+          },
+          "valueSet": {
+            "EstadoReserva": {
+              "kind": "valueSet",
+              "values": [
+                "PENDIENTE",
+                "CONFIRMADA",
+                "CANCELADA",
+                "DEVUELTA"
+              ]
+            },
+            "MetodoPago": {
+              "kind": "valueSet",
+              "values": [
+                "YAPPY",
+                "TRANSFERENCIA"
+              ]
+            },
+            "Modalidad": {
+              "kind": "valueSet",
+              "values": [
+                "POLLERA_SOLA",
+                "POLLERA_CON_PRENDAS"
+              ]
+            },
+            "Rol": {
+              "kind": "valueSet",
+              "values": [
+                "DUENA",
+                "EMPLEADO"
+              ]
+            }
+          }
+        },
+        "id": "public",
+        "kind": "postgres-schema"
+      }
+    },
+    "storageHash": "12bfd13fcb4bf9a2ab1b0e5feabd210e14785f753f4e1d5e3b42f598d3f8904a"
+  },
+  "execution": {
+    "executionHash": "3a823f96dece6a80f06934c9415e7d1307323ae15405c798ca1c76281c7354ff",
+    "mutations": {
+      "defaults": [
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "accesorios",
+            "field": "id",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator",
+            "params": {
+              "precision": 3
+            }
+          },
+          "ref": {
+            "entry": "bloqueos_pollera",
+            "field": "creadoEn",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "bloqueos_pollera",
+            "field": "id",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "pollera_accesorios",
+            "field": "id",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator",
+            "params": {
+              "precision": 3
+            }
+          },
+          "ref": {
+            "entry": "polleras",
+            "field": "creadoEn",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "polleras",
+            "field": "id",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator",
+            "params": {
+              "precision": 3
+            }
+          },
+          "onUpdate": {
+            "id": "timestampNow",
+            "kind": "generator",
+            "params": {
+              "precision": 3
+            }
+          },
+          "ref": {
+            "entry": "reservas",
+            "field": "actualizadoEn",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator",
+            "params": {
+              "precision": 3
+            }
+          },
+          "ref": {
+            "entry": "reservas",
+            "field": "creadoEn",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "reservas",
+            "field": "id",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator",
+            "params": {
+              "precision": 3
+            }
+          },
+          "ref": {
+            "entry": "usuarios",
+            "field": "creadoEn",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "usuarios",
+            "field": "id",
+            "namespace": "public"
+          }
+        }
+      ]
+    }
+  },
+  "capabilities": {
+    "postgres": {
+      "distinctOn": true,
+      "forKeyShare": true,
+      "forNoKeyUpdate": true,
+      "jsonAgg": true,
+      "lateral": true,
+      "limit": true,
+      "orderBy": true,
+      "returning": true
+    },
+    "sql": {
+      "checkConstraint": true,
+      "defaultInInsert": true,
+      "enums": true,
+      "forShare": true,
+      "forUpdate": true,
+      "insertOnConflictSkip": true,
+      "insertOnConflictTarget": true,
+      "insertOnConflictWithoutTarget": true,
+      "jsonAgg": true,
+      "jsonAggWithoutTruncation": true,
+      "lateral": true,
+      "lockNowait": true,
+      "lockOf": true,
+      "lockSkipLocked": true,
+      "outerReferencesInDerivedTables": true,
+      "returning": true,
+      "scalarList": true
+    }
+  },
+  "extensions": {},
+  "meta": {},
+  "_generated": {
+    "warning": "⚠️  GENERATED FILE - DO NOT EDIT",
+    "message": "This file is automatically generated by \"prisma contract emit\".",
+    "regenerate": "To regenerate, run: prisma contract emit"
+  }
+}

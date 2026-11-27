@@ -1,26 +1,205 @@
 @import "tailwindcss";
 
+@theme {
+  --color-crema: #fff8f2;
+  --color-vino: #6d1239;
+  --color-rosa: #b21e5b;
+  --color-fresa: #d94f7a;
+  --color-oro: #c8952f;
+  --color-tinta: #2b1b22;
+  --font-display: Georgia, "Times New Roman", serif;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fff8f2;
+  --foreground: #2b1b22;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+.lienzo {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(217, 79, 122, 0.16), transparent 32%),
+    radial-gradient(circle at 88% 8%, rgba(200, 149, 47, 0.18), transparent 30%),
+    radial-gradient(circle at 70% 90%, rgba(109, 18, 57, 0.1), transparent 38%),
+    linear-gradient(160deg, #fffaf5 0%, #fff3e8 55%, #fbe9e0 100%);
+}
+
+.tarjeta {
+  border: 1px solid rgba(109, 18, 57, 0.1);
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 20px 50px -28px rgba(109, 18, 57, 0.45);
+  backdrop-filter: blur(6px);
+}
+
+.tarjeta-interactiva {
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.tarjeta-interactiva:hover {
+  transform: translateY(-6px);
+  border-color: rgba(178, 30, 91, 0.3);
+  box-shadow: 0 30px 60px -26px rgba(109, 18, 57, 0.5);
+}
+
+.titulo-grande {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+}
+
+.texto-degradado {
+  background: linear-gradient(100deg, #6d1239 10%, #b21e5b 55%, #c8952f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.linea-adorno {
+  width: 4.5rem;
+  height: 0.2rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #6d1239, #d94f7a, #c8952f);
+}
+
+.boton-lleno {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.85rem 1.6rem;
+  background: linear-gradient(120deg, #6d1239, #b21e5b);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 14px 28px -14px rgba(109, 18, 57, 0.9);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.boton-lleno:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 34px -14px rgba(109, 18, 57, 0.95);
+}
+
+.boton-contorno {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(109, 18, 57, 0.25);
+  border-radius: 999px;
+  padding: 0.8rem 1.5rem;
+  background: rgba(255, 255, 255, 0.75);
+  color: #6d1239;
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.boton-contorno:hover {
+  background: #fff;
+  transform: translateY(-2px);
+}
+
+.foto-pollera {
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.7s ease;
+}
+
+.group:hover .foto-pollera {
+  transform: scale(1.07);
+}
+
+.foto-cubierta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(43, 27, 34, 0.05) 45%, rgba(109, 18, 57, 0.55) 100%);
+}
+
+.numero-paso {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border: 1px solid rgba(200, 149, 47, 0.55);
+  border-radius: 999px;
+  background: linear-gradient(140deg, #fff, #fff1e4);
+  color: #6d1239;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  box-shadow: 0 10px 22px -14px rgba(109, 18, 57, 0.8);
+}
+
+.flotar {
+  animation: flotar 6s ease-in-out infinite;
+}
+
+@keyframes flotar {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .flotar,
+  .tarjeta-interactiva,
+  .foto-pollera,
+  .boton-lleno,
+  .boton-contorno {
+    animation: none;
+    transition: none;
+  }
+}
+
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  nav,
+  form,
+  button,
+  a {
+    display: none !important;
+  }
+
+  main {
+    max-width: none;
+    padding: 0;
+  }
+
+  section {
+    box-shadow: none;
+    break-inside: avoid;
+  }
 }

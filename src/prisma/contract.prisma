@@ -1,0 +1,121 @@
+// use prisma-8
+
+enum Rol {
+  @@type("pg/text@1")
+  DUENA = "DUENA"
+  EMPLEADO = "EMPLEADO"
+}
+
+enum EstadoReserva {
+  @@type("pg/text@1")
+  PENDIENTE = "PENDIENTE"
+  CONFIRMADA = "CONFIRMADA"
+  CANCELADA = "CANCELADA"
+  DEVUELTA = "DEVUELTA"
+}
+
+enum Modalidad {
+  @@type("pg/text@1")
+  POLLERA_SOLA = "POLLERA_SOLA"
+  POLLERA_CON_PRENDAS = "POLLERA_CON_PRENDAS"
+}
+
+enum MetodoPago {
+  @@type("pg/text@1")
+  YAPPY = "YAPPY"
+  TRANSFERENCIA = "TRANSFERENCIA"
+}
+
+model Usuario {
+  id       String   @id @onCreate(uuid())
+  nombre   String
+  telefono String   @unique
+  correo   String?  @unique
+  rol      Rol      @default(EMPLEADO)
+  activo   Boolean  @default(true)
+  creadoEn temporal.CreatedAt
+  reservas Reserva[]
+
+  @@map("usuarios")
+}
+
+model Pollera {
+  id          String             @id @onCreate(uuid())
+  nombre      String
+  talla       String
+  color       String
+  descripcion String
+  precio      Decimal(precision: 10, scale: 2)
+  precioCombo Decimal(precision: 10, scale: 2)
+  imagenUrl   String?
+  activa      Boolean            @default(true)
+  creadoEn    temporal.CreatedAt
+  accesorios  PolleraAccesorio[]
+  reservas    Reserva[]
+  bloqueos    BloqueoPollera[]
+
+  @@map("polleras")
+}
+
+model Accesorio {
+  id       String             @id @onCreate(uuid())
+  nombre   String
+  tipo     String
+  precio   Decimal(precision: 10, scale: 2)
+  activo   Boolean            @default(true)
+  polleras PolleraAccesorio[]
+
+  @@map("accesorios")
+}
+
+model PolleraAccesorio {
+  id          String    @id @onCreate(uuid())
+  pollera     Pollera   @relation(fields: [polleraId], references: [id], onDelete: Cascade)
+  polleraId   String
+  accesorio   Accesorio @relation(fields: [accesorioId], references: [id], onDelete: Cascade)
+  accesorioId String
+
+  @@unique([polleraId, accesorioId])
+  @@map("pollera_accesorios")
+}
+
+model Reserva {
+  id                 String                          @id @onCreate(uuid())
+  clienteNombre      String
+  clienteTelefono    String
+  fechaReserva       Date
+  fechaPrueba        Date?
+  horaPrueba         Time?
+  fechaEntrega       Date?
+  fechaDevolucion    Date?
+  estado             EstadoReserva                   @default(PENDIENTE)
+  modalidad          Modalidad                       @default(POLLERA_SOLA)
+  metodoPago         MetodoPago?
+  depositoMonto      Decimal(precision: 10, scale: 2)?
+  depositoConfirmado DateTime?
+  avisoEnviadoEn     DateTime?
+  notas              String?
+  creadoEn           temporal.CreatedAt
+  actualizadoEn      temporal.UpdatedAt
+  pollera            Pollera                         @relation(fields: [polleraId], references: [id])
+  polleraId          String
+  usuario            Usuario                         @relation(fields: [usuarioId], references: [id])
+  usuarioId          String
+  bloqueo            BloqueoPollera?
+
+  @@index([polleraId, fechaReserva])
+  @@map("reservas")
+}
+
+model BloqueoPollera {
+  id        String   @id @onCreate(uuid())
+  fecha     Date
+  pollera   Pollera  @relation(fields: [polleraId], references: [id], onDelete: Cascade)
+  polleraId String
+  reserva   Reserva  @relation(fields: [reservaId], references: [id], onDelete: Cascade)
+  reservaId String   @unique
+  creadoEn  temporal.CreatedAt
+
+  @@unique([polleraId, fecha])
+  @@map("bloqueos_pollera")
+}
