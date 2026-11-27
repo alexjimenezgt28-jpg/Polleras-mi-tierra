@@ -1,14 +1,34 @@
+export const TECNICAS = [
+  "Bordado a mano",
+  "Marcado (punto de cruz)",
+  "Zurcido y calado",
+  "Talco al sol",
+  "Talco en sombra",
+  "Encaje de mundillo",
+  "Sin labor (tela estampada)",
+] as const;
+
 export type Pollera = {
   id: string;
   nombre: string;
   talla: string;
   color: string;
   descripcion: string;
+  tecnica: string;
   precioSola: number;
   precioCombo: number;
   imagenUrl: string | null;
   fechasOcupadas: string[];
 };
+
+export function coloresDe(color: string): string[] {
+  const partes = color
+    .split(/\s+y\s+|\s*,\s*/i)
+    .map((parte) => parte.trim())
+    .filter((parte) => parte !== "")
+    .map((parte) => parte.charAt(0).toUpperCase() + parte.slice(1).toLowerCase());
+  return Array.from(new Set(partes));
+}
 
 export const polleras: Pollera[] = [
   {
@@ -17,6 +37,7 @@ export const polleras: Pollera[] = [
     talla: "M",
     color: "Rojo y blanco",
     descripcion: "Bordado floral, falda amplia y manto a juego. Ideal para fiestas formales.",
+    tecnica: "Bordado a mano",
     precioSola: 45,
     precioCombo: 70,
     imagenUrl: "/polleras/gala-roja.png",
@@ -28,6 +49,7 @@ export const polleras: Pollera[] = [
     talla: "S",
     color: "Azul y crema",
     descripcion: "Encaje delicado y toque de seda. Muy liviana para eventos de día.",
+    tecnica: "Encaje de mundillo",
     precioSola: 40,
     precioCombo: 65,
     imagenUrl: "/polleras/encaje-azul.png",
@@ -39,6 +61,7 @@ export const polleras: Pollera[] = [
     talla: "L",
     color: "Dorado y marfil",
     descripcion: "Brillo discreto, vuelo generoso y cinta de satén. Para ocasiones especiales.",
+    tecnica: "Zurcido y calado",
     precioSola: 55,
     precioCombo: 85,
     imagenUrl: "/polleras/fiesta-dorada.png",
@@ -50,9 +73,178 @@ export const polleras: Pollera[] = [
     talla: "M",
     color: "Verde y blanco",
     descripcion: "Diseño sencillo y cómodo, perfecta para sesiones de fotos y pruebas.",
+    tecnica: "Sin labor (tela estampada)",
     precioSola: 35,
     precioCombo: 60,
     imagenUrl: "/polleras/diario-verde.png",
     fechasOcupadas: ["2026-12-01"],
+  },
+  {
+    id: "gala-blanca-perla",
+    nombre: "Gala blanca de perlas",
+    talla: "M",
+    color: "Blanco y marfil",
+    descripcion: "Talco al sol sobre tela de hilo, con calados florales y tembleques de perla.",
+    tecnica: "Talco al sol",
+    precioSola: 120,
+    precioCombo: 180,
+    imagenUrl: "/polleras/gala-roja.png",
+    fechasOcupadas: ["2026-12-10"],
+  },
+  {
+    id: "gala-santena-zurcida",
+    nombre: "Gala santeña zurcida",
+    talla: "S",
+    color: "Blanco y rojo",
+    descripcion: "Zurcido con hilo de color y calados, trencillas de mundillo y encaje valenciano.",
+    tecnica: "Zurcido y calado",
+    precioSola: 110,
+    precioCombo: 170,
+    imagenUrl: "/polleras/fiesta-dorada.png",
+    fechasOcupadas: ["2026-12-18"],
+  },
+  {
+    id: "marcada-azul",
+    nombre: "Pollera marcada azul",
+    talla: "M",
+    color: "Azul y blanco",
+    descripcion: "Punto de cruz con motivos florales y aves sobre lienzo blanco.",
+    tecnica: "Marcado (punto de cruz)",
+    precioSola: 90,
+    precioCombo: 140,
+    imagenUrl: "/polleras/encaje-azul.png",
+    fechasOcupadas: ["2026-12-15"],
+  },
+  {
+    id: "labor-rosada",
+    nombre: "Pollera de labor rosada",
+    talla: "L",
+    color: "Rosado y blanco",
+    descripcion: "Sombreado en talco, calados finos y vuelo amplio para eventos de día.",
+    tecnica: "Talco en sombra",
+    precioSola: 95,
+    precioCombo: 150,
+    imagenUrl: "/polleras/gala-roja.png",
+    fechasOcupadas: ["2026-12-08"],
+  },
+  {
+    id: "organza-amarilla",
+    nombre: "Pollera de organza amarilla",
+    talla: "S",
+    color: "Amarillo y crema",
+    descripcion: "Organza ligera sin labor, con encaje en las arandelas y pretina.",
+    tecnica: "Sin labor (tela estampada)",
+    precioSola: 50,
+    precioCombo: 80,
+    imagenUrl: "/polleras/fiesta-dorada.png",
+    fechasOcupadas: ["2026-12-20"],
+  },
+  {
+    id: "gala-morada",
+    nombre: "Pollera de gala morada",
+    talla: "M",
+    color: "Morado y blanco",
+    descripcion: "Bordado a mano con racimos de uvas y piñas, inspirado en la labor santeña.",
+    tecnica: "Bordado a mano",
+    precioSola: 100,
+    precioCombo: 155,
+    imagenUrl: "/polleras/gala-roja.png",
+    fechasOcupadas: ["2026-12-22"],
+  },
+  {
+    id: "encaje-blanco",
+    nombre: "Pollera de encaje blanco",
+    talla: "S",
+    color: "Blanco y crema",
+    descripcion: "Trencillas de mundillo y encajes valencianos en camisa y pollerón.",
+    tecnica: "Encaje de mundillo",
+    precioSola: 75,
+    precioCombo: 115,
+    imagenUrl: "/polleras/encaje-azul.png",
+    fechasOcupadas: ["2026-12-03"],
+  },
+  {
+    id: "montuna-verde",
+    nombre: "Pollera montuna verde",
+    talla: "L",
+    color: "Verde y crema",
+    descripcion: "Pollera de campo sin labores, cómoda para desfiles y presentaciones folclóricas.",
+    tecnica: "Sin labor (tela estampada)",
+    precioSola: 45,
+    precioCombo: 70,
+    imagenUrl: "/polleras/diario-verde.png",
+    fechasOcupadas: ["2026-12-09"],
+  },
+  {
+    id: "talco-dorado",
+    nombre: "Pollera de talco dorado",
+    talla: "M",
+    color: "Dorado y blanco",
+    descripcion: "Sobrepuesto de percal en tela de hilo, con sombreado y calados a juego.",
+    tecnica: "Talco al sol",
+    precioSola: 105,
+    precioCombo: 160,
+    imagenUrl: "/polleras/fiesta-dorada.png",
+    fechasOcupadas: ["2026-12-14"],
+  },
+  {
+    id: "calada-celeste",
+    nombre: "Pollera calada celeste",
+    talla: "S",
+    color: "Azul y blanco",
+    descripcion: "Calados tipo ojito de muñeca y cañita sobre diseño floral zurcido.",
+    tecnica: "Zurcido y calado",
+    precioSola: 98,
+    precioCombo: 148,
+    imagenUrl: "/polleras/encaje-azul.png",
+    fechasOcupadas: ["2026-12-17"],
+  },
+  {
+    id: "bordada-fucsia",
+    nombre: "Pollera bordada fucsia",
+    talla: "M",
+    color: "Rosado y marfil",
+    descripcion: "Bordado con mariposas y colibríes, gallardete de satén a juego.",
+    tecnica: "Bordado a mano",
+    precioSola: 88,
+    precioCombo: 135,
+    imagenUrl: "/polleras/gala-roja.png",
+    fechasOcupadas: ["2026-12-21"],
+  },
+  {
+    id: "lino-natural",
+    nombre: "Pollera de lino natural",
+    talla: "L",
+    color: "Crema y blanco",
+    descripcion: "Lino trabajado en punto de cruz con diseños geométricos y florales.",
+    tecnica: "Marcado (punto de cruz)",
+    precioSola: 85,
+    precioCombo: 130,
+    imagenUrl: "/polleras/diario-verde.png",
+    fechasOcupadas: ["2026-12-11"],
+  },
+  {
+    id: "fiesta-multicolor",
+    nombre: "Pollera de fiesta multicolor",
+    talla: "M",
+    color: "Multicolor",
+    descripcion: "Tela estampada de colores vivos con arandelas rematadas en encaje.",
+    tecnica: "Sin labor (tela estampada)",
+    precioSola: 60,
+    precioCombo: 95,
+    imagenUrl: "/polleras/fiesta-dorada.png",
+    fechasOcupadas: ["2026-12-07"],
+  },
+  {
+    id: "novia-perla",
+    nombre: "Pollera de novia perla",
+    talla: "S",
+    color: "Blanco y perla",
+    descripcion: "Conjunto blanco con trencillas de mundillo, tembleques de perla y velo.",
+    tecnica: "Encaje de mundillo",
+    precioSola: 130,
+    precioCombo: 200,
+    imagenUrl: "/polleras/encaje-azul.png",
+    fechasOcupadas: ["2026-12-25"],
   },
 ];

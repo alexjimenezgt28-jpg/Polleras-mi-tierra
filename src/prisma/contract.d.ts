@@ -18,7 +18,7 @@ import type {
 } from '@prisma/orm-postgres/contract-types';
 
 export type StorageHash =
-  StorageHashBase<'12bfd13fcb4bf9a2ab1b0e5feabd210e14785f753f4e1d5e3b42f598d3f8904a'>;
+  StorageHashBase<'ed3cc1fe76a996860757ff8235b9a3134084a618b6b44a1533c5bce3629077dd'>;
 export type ExecutionHash =
   ExecutionHashBase<'3a823f96dece6a80f06934c9415e7d1307323ae15405c798ca1c76281c7354ff'>;
 export type ProfileHash =
@@ -379,6 +379,7 @@ export namespace Models {
     precio: FieldOutputTypes['public']['Pollera']['precio'];
     precioCombo: FieldOutputTypes['public']['Pollera']['precioCombo'];
     talla: FieldOutputTypes['public']['Pollera']['talla'];
+    tecnica: FieldOutputTypes['public']['Pollera']['tecnica'];
     accesorios: public_PolleraAccesorio[];
     bloqueos: public_BloqueoPollera[];
     reservas: public_Reserva[];
@@ -707,6 +708,16 @@ type ContractBase = Omit<
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly tecnica: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/text@1', 'Bordado a mano'>;
+                  };
                   readonly many: false;
                 };
               };
@@ -1176,6 +1187,10 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
+              readonly tecnica: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
             };
             readonly relations: {
               readonly accesorios: {
@@ -1226,6 +1241,7 @@ type ContractBase = Omit<
                 readonly precio: { readonly column: 'precio' };
                 readonly precioCombo: { readonly column: 'precioCombo' };
                 readonly talla: { readonly column: 'talla' };
+                readonly tecnica: { readonly column: 'tecnica' };
               };
             };
           };

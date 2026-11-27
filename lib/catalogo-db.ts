@@ -60,7 +60,17 @@ export async function obtenerPolleras(): Promise<ResultadoCatalogo> {
 
   try {
     const filas = await db.orm.public.Pollera
-      .select("id", "nombre", "talla", "color", "descripcion", "precio", "precioCombo", "imagenUrl")
+      .select(
+        "id",
+        "nombre",
+        "talla",
+        "color",
+        "descripcion",
+        "tecnica",
+        "precio",
+        "precioCombo",
+        "imagenUrl",
+      )
       .include("bloqueos", (bloqueo) => bloqueo.select("fecha"))
       .where({ activa: true })
       .orderBy((pollera) => pollera.nombre.asc())
@@ -73,6 +83,7 @@ export async function obtenerPolleras(): Promise<ResultadoCatalogo> {
         talla: fila.talla,
         color: fila.color,
         descripcion: fila.descripcion,
+        tecnica: fila.tecnica,
         precioSola: Number(fila.precio),
         precioCombo: Number(fila.precioCombo),
         imagenUrl: fila.imagenUrl ?? null,

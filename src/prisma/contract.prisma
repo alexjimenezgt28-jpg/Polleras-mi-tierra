@@ -45,6 +45,7 @@ model Pollera {
   talla       String
   color       String
   descripcion String
+  tecnica     String   @default("Bordado a mano")
   precio      Decimal(precision: 10, scale: 2)
   precioCombo Decimal(precision: 10, scale: 2)
   imagenUrl   String?
